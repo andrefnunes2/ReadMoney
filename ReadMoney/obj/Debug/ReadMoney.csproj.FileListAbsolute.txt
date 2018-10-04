@@ -1,0 +1,10 @@
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\ReadMoney.exe.config
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.csproj.ResolveComReference.cache
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\ReadMoney.exe
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\ReadMoney.pdb
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.csprojResolveAssemblyReference.cache
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.ReadMoney.resources
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.Properties.Resources.resources
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.csproj.GenerateResource.Cache
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.exe
+D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.pdb
