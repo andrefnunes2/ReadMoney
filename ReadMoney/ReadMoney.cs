@@ -33,7 +33,9 @@ namespace ReadMoney
         {
             countTeste++;
 
-            Excel.Application xlApp = new Excel.Application();
+            List<MLFinalResult> lstFinalResult = new BLFinalResult().Listar();
+
+            /*Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(GFilePath);
             Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[8];
             Excel.Range xlRange = xlWorksheet.UsedRange;
@@ -46,9 +48,9 @@ namespace ReadMoney
             xlWorkbook.Close();
             Marshal.ReleaseComObject(xlWorkbook);
             xlApp.Quit();
-            Marshal.ReleaseComObject(xlApp);
+            Marshal.ReleaseComObject(xlApp);*/
 
-            if (!GCloseRecursive) AnalyzeFile(null, new EventArgs()); ;
+            if (!GCloseRecursive) AnalyzeFile(null, new EventArgs());
         }
 
         private void btnStop_Click(object sender, EventArgs e)

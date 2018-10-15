@@ -8,3 +8,7 @@ D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.Properties.Resources.
 D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.csproj.GenerateResource.Cache
 D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.exe
 D:\Projetos\Outros\ReadMoney\ReadMoney\obj\Debug\ReadMoney.pdb
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\Google.Protobuf.dll
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\MySql.Data.dll
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\Google.Protobuf.xml
+D:\Projetos\Outros\ReadMoney\ReadMoney\bin\Debug\MySql.Data.xml

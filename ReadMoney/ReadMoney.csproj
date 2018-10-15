@@ -60,7 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLFinalResult.cs" />
     <Compile Include="DBConnect.cs" />
+    <Compile Include="MLFinalResult.cs" />
     <Compile Include="ReadMoney.cs">
       <SubType>Form</SubType>
     </Compile>

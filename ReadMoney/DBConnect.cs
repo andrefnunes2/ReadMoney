@@ -10,28 +10,20 @@ namespace ReadMoney
 {
     public class DBConnect
     {
-        private MySqlConnection connection;
+        public MySqlConnection connection;
         
-        //Constructor
         public DBConnect()
         {
-            Initialize();
-        }
-
-        //Initialize values
-        private void Initialize()
-        {
-            string server = "dados.000webhost.com";
-            string database = "id3534228_readmoneydb";
-            string uid = "id3534228_administrator";
+            string server = "85.10.205.173";
+            string database = "readmoneydb";
+            string uid = "readmoney";
             string password = "readMoney2018";
-            string connectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            string connectionString = String.Format("server={0};Port=3306;database={1};uid={2};pwd={3};old guids=true;", server, database, uid, password);
 
             connection = new MySqlConnection(connectionString);
         }
 
-        //open connection to database
-        private bool OpenConnection()
+        public bool OpenConnection()
         {
             try
             {
@@ -54,8 +46,7 @@ namespace ReadMoney
             }
         }
 
-        //Close connection
-        private bool CloseConnection()
+        public bool CloseConnection()
         {
             try
             {
