@@ -10,9 +10,9 @@ namespace ReadMoney
 {
     public class BLFinalResult
     {
-        #region Listar
+        #region List
 
-        public List<MLFinalResult> Listar()
+        public List<MLFinalResult> List()
         {
             string query = "SELECT * FROM FinalResult";
             List<MLFinalResult> result = new List<MLFinalResult>();
@@ -56,28 +56,32 @@ namespace ReadMoney
 
         #endregion
 
-        public void Inserir(List<MLFinalResult> lstAcoes)
+        #region Insert
+
+        public void Insert(List<MLFinalResult> lstAcoes)
         {
             string query = "INSERT INTO FinalResult VALUES";
             string values = "";
 
-            foreach(var acao in lstAcoes)
+            foreach (var acao in lstAcoes)
             {
-                values += String.Format(",({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13})",
+                values += String.Format(", ('{0}',{1},'{2}',{3},{4},{5},{6},{7},{8},{9},{10},{11},'{12}')",
                     acao.Ativo,
                     acao.TipoAtivo,
                     acao.Nome,
                     acao.LT,
-                    acao.CFA,
-                    acao.CAb,
+                    acao.CFA.ToString().Replace(',','.'),
+                    acao.CAb.ToString().Replace(',', '.'),
                     acao.CFA_STP,
                     acao.CAb_STP,
-                    acao.VFA,
-                    acao.VAb,
+                    acao.VFA.ToString().Replace(',', '.'),
+                    acao.VAb.ToString().Replace(',', '.'),
                     acao.VFA_STP,
                     acao.VAb_STP,
                     acao.DtUltimaLeitura.ToString("yyyy-MM-dd HH:mm:ss"));
             }
+
+            query += values.TrimStart(',');
 
             try
             {
@@ -94,6 +98,8 @@ namespace ReadMoney
                 MessageBox.Show(ex.Message);
             }
         }
+
+        #endregion
 
         //Update statement
         public void Update(List<MLFinalResult> lstAcoes)

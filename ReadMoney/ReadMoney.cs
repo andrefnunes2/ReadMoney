@@ -33,7 +33,43 @@ namespace ReadMoney
         {
             countTeste++;
 
-            List<MLFinalResult> lstFinalResult = new BLFinalResult().Listar();
+            List<MLFinalResult> lstAcoes = new List<MLFinalResult>();
+
+            lstAcoes.Add(new MLFinalResult()
+            {
+                Ativo = "VLID3",
+                TipoAtivo = 2,
+                Nome = "André",
+                LT = 2,
+                CFA = 1.2,
+                CAb = 1.2,
+                CFA_STP = 2,
+                CAb_STP = 2,
+                VFA = 1.2,
+                VAb = 1.2,
+                VFA_STP = 2,
+                VAb_STP = 2,
+                DtUltimaLeitura = DateTime.Now
+            });
+
+            lstAcoes.Add(new MLFinalResult()
+            {
+                Ativo = "ITUB4",
+                TipoAtivo = 3,
+                Nome = "Pedro",
+                LT = 3,
+                CFA = 1.3,
+                CAb = 1.3,
+                CFA_STP = 3,
+                CAb_STP = 3,
+                VFA = 1.3,
+                VAb = 1.3,
+                VFA_STP = 3,
+                VAb_STP = 3,
+                DtUltimaLeitura = DateTime.Now
+            });
+
+            new BLFinalResult().Inserir(lstAcoes);
 
             /*Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(GFilePath);
@@ -50,7 +86,7 @@ namespace ReadMoney
             xlApp.Quit();
             Marshal.ReleaseComObject(xlApp);*/
 
-            if (!GCloseRecursive) AnalyzeFile(null, new EventArgs());
+            //if (!GCloseRecursive) AnalyzeFile(null, new EventArgs());
         }
 
         private void btnStop_Click(object sender, EventArgs e)
