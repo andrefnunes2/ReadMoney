@@ -20,6 +20,14 @@ namespace ReadMoney
         public double? VAb { get; set; }
         public int? VFA_STP { get; set; }
         public int? VAb_STP { get; set; }
+        public double? VarS100 { get; set; }
+        public double? VarSBal { get; set; }
         public DateTime DtUltimaLeitura { get; set; }
+    }
+
+    public class MLTraderName
+    {
+        public string Nome { get; set; }
+        public bool IsAtivo { get; set; }
     }
 }

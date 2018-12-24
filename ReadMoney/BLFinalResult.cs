@@ -40,7 +40,9 @@ namespace ReadMoney
                                 VFA = Convert.ToDouble(dataReader["VFA"]),
                                 VAb = Convert.ToDouble(dataReader["VAb"]),
                                 VFA_STP = Convert.ToInt32(dataReader["VFA_STP"]),
-                                VAb_STP = Convert.ToInt32(dataReader["VAb_STP"])
+                                VAb_STP = Convert.ToInt32(dataReader["VAb_STP"]),
+                                VarS100 = Convert.ToDouble(dataReader["VarS100"]),
+                                VarSBal = Convert.ToDouble(dataReader["VarSBal"])
                             });
                         }
                     }
@@ -65,7 +67,7 @@ namespace ReadMoney
 
             foreach (var acao in lstAcoes)
             {
-                values += String.Format(", ('{0}',{1},'{2}',{3},{4},{5},{6},{7},{8},{9},{10},{11},'{12}')",
+                values += String.Format(", ('{0}',{1},'{2}',{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},'{14}')",
                     acao.Ativo,
                     acao.TipoAtivo,
                     acao.Nome,
@@ -78,6 +80,8 @@ namespace ReadMoney
                     acao.VAb.ToString().Replace(',', '.'),
                     acao.VFA_STP,
                     acao.VAb_STP,
+                    acao.VarS100.ToString().Replace(',', '.'),
+                    acao.VarSBal.ToString().Replace(',', '.'),
                     acao.DtUltimaLeitura.ToString("yyyy-MM-dd HH:mm:ss"));
             }
 
@@ -101,10 +105,46 @@ namespace ReadMoney
 
         #endregion
 
-        //Update statement
+        #region Update
+
         public void Update(List<MLFinalResult> lstAcoes)
         {
-            string query = "UPDATE FinalResult SET name='Joe', age='22' WHERE name='John Smith'";
+            string query = "";
+
+            foreach (var acao in lstAcoes)
+            {
+                query += String.Format(@"UPDATE FinalResult SET 
+                                            TipoAtivo = {1}, 
+                                            Nome = '{2}', 
+                                            LT = {3},
+                                            CFA = {4},
+                                            CAb = {5},
+                                            CFA_STP = {6},
+                                            CAb_STP = {7},
+                                            VFA = {8},
+                                            VAb = {9},
+                                            VFA_STP = {10},
+                                            VAb_STP = {11},
+                                            VarS100 = {12},
+                                            VarSBal = {13},
+                                            DtUltimaLeitura = '{14}' 
+                                        WHERE Ativo = '{0}'",
+                                        acao.Ativo,
+                                        acao.TipoAtivo,
+                                        acao.Nome,
+                                        acao.LT,
+                                        acao.CFA.ToString().Replace(',', '.'),
+                                        acao.CAb.ToString().Replace(',', '.'),
+                                        acao.CFA_STP,
+                                        acao.CAb_STP,
+                                        acao.VFA.ToString().Replace(',', '.'),
+                                        acao.VAb.ToString().Replace(',', '.'),
+                                        acao.VFA_STP,
+                                        acao.VAb_STP,
+                                        acao.VarS100.ToString().Replace(',', '.'),
+                                        acao.VarSBal.ToString().Replace(',', '.'),
+                                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            }
 
             try
             {
@@ -121,6 +161,9 @@ namespace ReadMoney
                 MessageBox.Show(ex.Message);
             }
         }
+
+        #endregion
+        
 
         //Delete statement
         public void Delete()
@@ -142,5 +185,43 @@ namespace ReadMoney
                 MessageBox.Show(ex.Message);
             }
         }
+
+        //-----------------------
+
+        #region List Trader Names
+
+        public List<MLTraderName> ListTraderNames()
+        {
+            string query = "SELECT * FROM TraderName WHERE IsAtivo = 1";
+            List<MLTraderName> result = new List<MLTraderName>();
+
+            try
+            {
+                using (MySqlConnection conn = new DBConnect().connection)
+                {
+                    conn.Open();
+
+                    using (MySqlDataReader dataReader = new MySqlCommand(query, conn).ExecuteReader())
+                    {
+                        while (dataReader.Read())
+                        {
+                            result.Add(new MLTraderName()
+                            {
+                                Nome = dataReader["Nome"].ToString(),
+                                IsAtivo = Convert.ToBoolean(dataReader["IsAtivo"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

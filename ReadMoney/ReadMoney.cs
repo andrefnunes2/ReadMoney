@@ -15,6 +15,16 @@ namespace ReadMoney
 {
     public partial class ReadMoney : Form
     {
+        private int ColumnIndex(string coluna)
+        {
+            var lstColunas = new string[] {
+                "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+                "AA","AB","AC","AD","AE","AF","AG","AH","AI","AJ","AK","AL","AM","AN","AO","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ",
+                "BA","BB","BC","BD","BE","BF","BG","BH","BI","BJ","BK","BL","BM","BN","BO","BP","BQ","BR","BS","BT","BU","BV","BW","BX","BY","BZ",
+                "CA","CB","CC","CD","CE","CF","CG","CH","CI","CJ","CK","CL","CM","CN","CO","CP","CQ","CR","CS","CT","CU","CV","CW","CX","CY","CZ"
+            };
+            return lstColunas.ToList().FindIndex(f => f == coluna) +1;
+        }
         public ReadMoney()
         {
             InitializeComponent();
@@ -22,7 +32,7 @@ namespace ReadMoney
         private bool GCloseRecursive;
         private string GFilePath = @"D:\Projetos\Outros\ReadMoney\Files\PRINCIPAL-25-09.xlsm";
 
-        private int countTeste = 0;
+        private int countTrader = 0;
 
         private void ReadMoney_Load(object sender, EventArgs e)
         {
@@ -31,60 +41,55 @@ namespace ReadMoney
        
         private void AnalyzeFile(object sender, EventArgs e)
         {
-            countTeste++;
-
             List<MLFinalResult> lstAcoes = new List<MLFinalResult>();
-
-            lstAcoes.Add(new MLFinalResult()
-            {
-                Ativo = "VLID3",
-                TipoAtivo = 2,
-                Nome = "André",
-                LT = 2,
-                CFA = 1.2,
-                CAb = 1.2,
-                CFA_STP = 2,
-                CAb_STP = 2,
-                VFA = 1.2,
-                VAb = 1.2,
-                VFA_STP = 2,
-                VAb_STP = 2,
-                DtUltimaLeitura = DateTime.Now
-            });
-
-            lstAcoes.Add(new MLFinalResult()
-            {
-                Ativo = "ITUB4",
-                TipoAtivo = 3,
-                Nome = "Pedro",
-                LT = 3,
-                CFA = 1.3,
-                CAb = 1.3,
-                CFA_STP = 3,
-                CAb_STP = 3,
-                VFA = 1.3,
-                VAb = 1.3,
-                VFA_STP = 3,
-                VAb_STP = 3,
-                DtUltimaLeitura = DateTime.Now
-            });
-
-            new BLFinalResult().Inserir(lstAcoes);
-
-            /*Excel.Application xlApp = new Excel.Application();
+            List<MLTraderName> lstTraders = new BLFinalResult().ListTraderNames();
+            
+            Excel.Application xlApp = new Excel.Application();
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(GFilePath);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[8];
-            Excel.Range xlRange = xlWorksheet.UsedRange;
+            Excel.Worksheet xlWs = (Excel.Worksheet)xlWorkbook.Worksheets.get_Item("Análise");
+            Excel.Range xlRange = xlWs.UsedRange;
 
-            lblInfo.Text = countTeste.ToString() + "- " + xlRange.Cells[2, 2].Value2.ToString();
+            for (var rw = 3; rw < xlRange.Rows.Count; rw++)
+            {
+                var lote = Convert.ToInt32(xlRange.Cells[rw, ColumnIndex("X")].Value2.ToString());
 
+                //TODO: Precisa listar os Ativos que já foram inceridos HOJE e somente atualiza-los.
+                if (lote > 0)
+                {
+                    lstAcoes.Add(new MLFinalResult()
+                    {
+                        Ativo = xlRange.Cells[rw, ColumnIndex("A")].Value2.ToString(),
+                        TipoAtivo = 0,
+                        Nome = lstTraders[countTrader].Nome,
+                        LT = lote,
+                        CFA = Math.Round(Convert.ToDouble(xlRange.Cells[rw, ColumnIndex("AB")].Value2.ToString()), 2),
+                        CAb = Math.Round(Convert.ToDouble(xlRange.Cells[rw, ColumnIndex("AD")].Value2.ToString()), 2),
+                        CFA_STP = Convert.ToInt32(xlRange.Cells[rw, ColumnIndex("AH")].Value2.ToString()),
+                        CAb_STP = Convert.ToInt32(xlRange.Cells[rw, ColumnIndex("AK")].Value2.ToString()),
+                        VFA = Math.Round(Convert.ToDouble(xlRange.Cells[rw, ColumnIndex("AW")].Value2.ToString()), 2),
+                        VAb = Math.Round(Convert.ToDouble(xlRange.Cells[rw, ColumnIndex("AY")].Value2.ToString()), 2),
+                        VFA_STP = Convert.ToInt32(xlRange.Cells[rw, ColumnIndex("BC")].Value2.ToString()),
+                        VAb_STP = Convert.ToInt32(xlRange.Cells[rw, ColumnIndex("BF")].Value2.ToString()),
+                        VarS100 = Math.Round(Convert.ToDouble(xlRange.Cells[rw, ColumnIndex("CC")].Value2.ToString()), 2),
+                        VarSBal = Math.Round(Convert.ToDouble(xlRange.Cells[rw, ColumnIndex("CD")].Value2.ToString()), 2),
+                        DtUltimaLeitura = DateTime.Now
+                    });
+
+                    //Repete a lista de traders, para dividir as ordens listadas
+                    countTrader = countTrader >= lstTraders.Count ? 0 : countTrader + 1;
+                }
+            }
+            
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
             xlWorkbook.Close();
             Marshal.ReleaseComObject(xlWorkbook);
             xlApp.Quit();
-            Marshal.ReleaseComObject(xlApp);*/
+            Marshal.ReleaseComObject(xlApp);
+
+
+            new BLFinalResult().Insert(lstAcoes);
 
             //if (!GCloseRecursive) AnalyzeFile(null, new EventArgs());
         }
